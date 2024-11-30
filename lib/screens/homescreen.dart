@@ -1,4 +1,5 @@
 import 'package:aslab_travel/models/destination_page.dart';
+import 'package:aslab_travel/screens/detail_destination.dart';
 import 'package:aslab_travel/utils/const.dart';
 import 'package:aslab_travel/widgets/popular_destination.dart';
 import 'package:aslab_travel/widgets/rekomendasi_destination.dart';
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedPadge = 0;
+  int selectedPage = 0;
   List<TravelDestination> popular = listDestination
       .where((element) => element.category == 'popular')
       .toList();
@@ -32,8 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: Column(
-        children: [BuildAppBar(),
-        const SizedBox(height: 20),
+        children: [
+          BuildAppBar(),
+          const SizedBox(height: 20),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -43,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Tempat Populer",
                   style: TextStyle(
                       fontSize: 16,
-                      
                       fontWeight: FontWeight.w600,
                       color: Colors.black),
                 ),
@@ -51,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Lihat Semua",
                   style: TextStyle(
                     fontSize: 12,
-                    
                     color: blueTextColor,
                   ),
                 )
@@ -69,10 +69,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(right: 15),
                   child: GestureDetector(
                     onTap: () {
-                     
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              DetailDestinasi(destination: popular[index]),
+                        ),
+                      );
                     },
                     child: PopularDestination(
-
                       destination: popular[index],
                     ),
                   ),
@@ -89,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Rekomendasi Untuk Kamu",
                   style: TextStyle(
                       fontSize: 14,
-                      
                       fontWeight: FontWeight.w600,
                       color: Colors.black),
                 ),
@@ -97,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Lihat Semua",
                   style: TextStyle(
                     fontSize: 12,
-                    
                     color: blueTextColor,
                   ),
                 ),
@@ -118,7 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: GestureDetector(
                       onTap: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailDestinasi(
+                                destination: rekomendasi[index]),
+                          ),
+                        );
                       },
                       child: RekomendasiDestination(
                         destination: rekomendasi[index],
@@ -152,13 +161,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             (index) => GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  selectedPadge = index;
+                                  selectedPage = index;
                                 });
                               },
                               child: Icon(
                                 icons[index],
                                 size: 32,
-                                color: selectedPadge == index
+                                color: selectedPage == index
                                     ? Colors.white
                                     : Colors.white.withOpacity(0.4),
                               ),
@@ -175,9 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-        
         ],
-        
       ),
     );
   }
